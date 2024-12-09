@@ -1,47 +1,38 @@
-const express = require('express');
-const cors = require('cors');
-const mongoose = require("mongoose");
-const dotenv = require('dotenv');
+const express = require("express");
 const app = express();
+const cors = require("cors");
+
+const mongoose = require("mongoose");
 const port = process.env.PORT || 5000;
-const bookRoutes = require('./src/books/book.route');
-const orderRoutes = require ("./src/orders/order.route");
-// Load environment variables
-dotenv.config();
+require('dotenv').config()
 
-// Middleware:
-app.use(express.json()); 
-
-// CORS configuration:
+// middleware
+app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:5173',  // Ensure no space before the URL
-  credentials: true  // Allow credentials (cookies, HTTP authentication, etc.)
-}));
+    origin: ['http://localhost:5173', 'https://book-app-frontend-tau.vercel.app'],
+    credentials: true
+}))
 
-// Route: Book routes
-app.use("/api/books", bookRoutes);
+// routes
+const bookRoutes = require('./src/books/book.route');
+const orderRoutes = require("./src/orders/order.route")
+const userRoutes =  require("./src/users/user.route")
+const adminRoutes= require("./src/stats/admin.stats")
 
-//Route: order routes 
+app.use("/api/books", bookRoutes)
 app.use("/api/orders", orderRoutes)
+app.use("/api/auth", userRoutes)
+app.use("/api/admin", adminRoutes)
 
-// Root route (before DB connection)
-app.use("/", (req, res) => {
-  res.send("BookStore Server is running!");
-});
-
-// MongoDB connection:
 async function main() {
-  try {
-    await mongoose.connect(process.env.DB_URL);
-    console.log("Mongodb connected successfully!");
-  } catch (err) {
-    console.error("MongoDB connection error:", err);
-  }
+  await mongoose.connect(process.env.DB_URL);
+  app.use("/", (req, res) => {
+    res.send("Book Store Server is running!");
+  });
 }
 
-// Start the server
-main().then(() => {
-  app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
-  });
+main().then(() => console.log("Mongodb connect successfully!")).catch(err => console.log(err));
+
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost ${port}`);
 });

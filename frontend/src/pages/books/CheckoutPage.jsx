@@ -10,15 +10,10 @@ const CheckoutPage = () => {
     const cartItems = useSelector(state => state.cart.cartItems);
     const totalPrice = cartItems.reduce((acc, item) => acc + item.newPrice, 0).toFixed(2);
     const { currentUser } = useAuth();
-    const navigate = useNavigate(); // Add useNavigate here for redirecting to orders
-    const [createOrder, { isLoading, error }] = useCreateOrderMutation();
+     const { register, handleSubmit, formState: { errors } } = useForm();
+     const [createOrder, { isLoading, error }] = useCreateOrderMutation();
+     const navigate = useNavigate(); 
     const [isChecked, setIsChecked] = useState(false);
-
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm();
 
     const onSubmit = async (data) => {
         const newOrder = {
@@ -34,7 +29,7 @@ const CheckoutPage = () => {
             productIds: cartItems.map(item => item?._id),
             totalPrice: totalPrice,
         };
-
+            console.log(newOrder);
         try {
             await createOrder(newOrder).unwrap();
             Swal.fire({
@@ -45,7 +40,7 @@ const CheckoutPage = () => {
                 confirmButtonColor: "#3085d6",
                 confirmButtonText: "Okay"
             });
-            navigate("/orders"); // Redirect to orders page
+            navigate("/orders"); 
         } catch (error) {
             console.error("Error placing the order", error);
             alert("Failed to place an order");
@@ -153,17 +148,14 @@ const CheckoutPage = () => {
                                     </div>
 
                                     {/* Terms & Conditions */}
-                                    <div className="md:col-span-5 text-sm text-[#5f4b3b]">
-                                        <input
-                                            type="checkbox"
-                                            name="terms"
-                                            onClick={() => setIsChecked(!isChecked)}
-                                            checked={isChecked}
-                                        />
-                                        <label htmlFor="terms" className="ml-2">
-                                            I have read and agree to the terms and conditions.
-                                        </label>
-                                    </div>
+                                    <div className="md:col-span-5 mt-3">
+                                                <div className="inline-flex items-center">
+                                                    <input
+                                                        onChange={(e) => setIsChecked(e.target.checked)}
+                                                        type="checkbox" name="billing_same" id="billing_same" className="form-checkbox" />
+                                                    <label htmlFor="billing_same" className="ml-2 ">I am aggree to the <Link className='underline underline-offset-2 text-blue-600'>Terms & Conditions</Link> and <Link className='underline underline-offset-2 text-blue-600'>Shoping Policy.</Link></label>
+                                                </div>
+                                            </div>
 
                                     {/* Submit Button */}
                                     <div className="md:col-span-5 flex justify-center mt-4">

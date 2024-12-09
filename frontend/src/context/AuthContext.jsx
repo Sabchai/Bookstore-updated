@@ -58,6 +58,7 @@ const logout = () => {
 
 
     const value = {
+        loading,
         currentUser,
         registerUser,
         loginUser,

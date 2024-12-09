@@ -8,7 +8,7 @@ import { useAuth } from "../context/AuthContext";
 import avatarImg from "../assets/avatar.png";
 
 const navigation = [
-    { name: "Dashboard", href: "/user-dashboard" },
+    { name: "Dashboard", href: "/Dashboard" },
     { name: "Orders", href: "/orders" },
     { name: "Cart Page", href: "/cart" },
     { name: "Check Out", href: "/checkout" },
