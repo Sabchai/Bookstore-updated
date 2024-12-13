@@ -1,21 +1,21 @@
-
-
-// Importar los componentes de Swiper 
 import { Swiper, SwiperSlide } from 'swiper/react';
-// Módulos requeridos 
 import { Pagination, Navigation } from 'swiper/modules';
-// Estilos 
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import BookCard from '../books/BookCard';
 import { useFetchAllBooksQuery } from '../../redux/features/books/booksApi';
+import { useDispatch } from 'react-redux';  // Import useDispatch
+import { addFavorite } from "../../redux/features/favorites/favoritesSlice";
 
 const Recommended = () => {
+  const dispatch = useDispatch();  // Initialize dispatch hook
+  const { data: books = [] } = useFetchAllBooksQuery();
 
-  const {data: books = []} = useFetchAllBooksQuery();
-  console.log(books)
- 
+  const handleAddToFavorites = (book) => {
+    dispatch(addFavorite(book));  // Dispatch the addFavorite action
+  };
+
   return (
     <div className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-gray-100">
       <div className="max-w-7xl mx-auto">
@@ -59,6 +59,12 @@ const Recommended = () => {
                 {/* Carta del libro con espaciado y margen adecuados */}
                 <div className="transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl rounded-xl bg-white shadow-lg overflow-hidden flex flex-col">
                   <BookCard book={book} />
+                  <button
+                    onClick={() => handleAddToFavorites(book)}  // Call the handler
+                     className="w-full py-2 mt-2 bg-yellow-900 text-white rounded-lg hover:bg-slate-500 transition-all"
+                  >
+                    Add to Favorites
+                  </button>
                 </div>
               </SwiperSlide>
             ))}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { FaGooglePlus } from "react-icons/fa";
 import { useAuth } from '../context/AuthContext';
 
@@ -25,10 +25,10 @@ const Register = () => {
     try {
       await signInWithGoogle();
       alert("Login successful!");
-      navigate("/")
+      Navigate("/")
   } catch (error) {
       alert("Google sign in failed!") 
-      console.error(error)
+      // console.error(error)
   }
     }
 
