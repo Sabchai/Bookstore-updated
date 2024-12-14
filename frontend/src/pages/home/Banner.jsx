@@ -64,7 +64,7 @@ const Banner = () => {
 
     try {
       // Usar Axios para enviar el email al backend
-      const response = await axios.post("http://localhost:5000/api/subscribe", {
+      const response = await axios.post("http://localhost:5000/api/subscribe/subscribe", {
         email,
       });
 

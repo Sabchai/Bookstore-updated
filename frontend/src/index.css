@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* index.css or App.css */
+
+/* Default (Light) Mode Styles */
+body {
+    background-color: #f3f3f3; /* Light mode background */
+    color: black; /* Light text color */
+  }
+  
+  /* Dark Mode Styles */
+  html.dark body {
+    background-color: #1a202c; /* Dark mode background */
+    color: black; /* Dark mode text color */
+  }
+  
+ 
+  /* html.dark .sidebar {
+    background-color: #2d3748;
+    color: white; 
+  }
+   */
+  
+  html.dark button {
+    background-color: #524a06; /* Dark mode button color */
+    color: white;
+  }
+  

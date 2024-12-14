@@ -1,4 +1,3 @@
-// subscribebanner/subscribe.controller.js
 const Subscriber = require("./subscribe.model");
 
 // Controlador para manejar la suscripción
@@ -24,4 +23,15 @@ const subscribeUser = async (req, res) => {
   }
 };
 
-module.exports = { subscribeUser };
+// Obtener el total de suscriptores
+const getTotalSubscribers = async (req, res) => {
+  try {
+    const totalSubscribers = await Subscriber.countDocuments();
+    res.status(200).json({ totalSubscribers });
+  } catch (error) {
+    console.error("Error fetching subscribers:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = { subscribeUser, getTotalSubscribers };

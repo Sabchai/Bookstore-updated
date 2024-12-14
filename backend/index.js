@@ -9,6 +9,7 @@ const orderRoutes = require("./src/orders/order.route")
 const userRoutes =  require("./src/users/user.route")
 const adminRoutes= require("./src/stats/admin.stats")
 const subscribeRoutes = require ("../backend/src/subscribebanner/subscribe.routes"); 
+const translateRouter = require('./utils/translateRouter');
 
 // middleware
 app.use(express.json());
@@ -21,7 +22,8 @@ app.use("/api/books", bookRoutes)
 app.use("/api/orders", orderRoutes)
 app.use("/api/auth", userRoutes)
 app.use("/api/admin", adminRoutes)
-app.use("/api", subscribeRoutes);
+app.use("/api/subscribe", subscribeRoutes);
+app.use('/translate', translateRouter);
 
 async function main() {
   await mongoose.connect(process.env.DB_URL);
